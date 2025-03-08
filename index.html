@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK Lawn Service Pricing Calculator</title>
+    <title>Lawn Service Pricing Calculator</title>
     <style>
         body {
             background-color: black;
@@ -60,11 +60,22 @@
             document.getElementById('weedPrice').textContent = `$${weedPrice.toFixed(2)}`;
             document.getElementById('totalPrice').textContent = `$${totalPrice.toFixed(2)}`;
         }
+        
+        function calculateMowingSpeed() {
+            let speedMph = parseFloat(document.getElementById('mowingSpeed').value) || 7;
+            let deckWidthInches = parseFloat(document.getElementById('deckWidth').value) || 52;
+            
+            let speedFpm = (speedMph * 5280) / 60;
+            let deckWidthFeet = deckWidthInches / 12;
+            let mowingRateSqftPerMin = speedFpm * deckWidthFeet;
+            
+            document.getElementById('mowingSpeedResult').textContent = `${Math.round(mowingRateSqftPerMin)} sqft/min`;
+        }
     </script>
 </head>
 <body>
     <div class="container">
-        <h2>AK Lawn Service Pricing Calculator</h2>
+        <h2>Lawn Service Pricing Calculator</h2>
         <label>Mowing (sq ft): <input type="number" id="mowingSqFt" value="0"></label>
         <label>Price per 100 sq ft: <input type="number" id="mowingRate" value="0.12" step="0.01"></label>
         <label>Edging (linear ft): <input type="number" id="edgingFt" value="0"></label>
@@ -78,6 +89,12 @@
         <p>Edging Cost: <span id="edgingPrice">$0.00</span></p>
         <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
         <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
+        
+        <h2>Mowing Speed Calculator</h2>
+        <label>Speed (mph): <input type="number" id="mowingSpeed" value="7" step="0.1"></label>
+        <label>Deck Width (inches): <input type="number" id="deckWidth" value="52" step="1"></label>
+        <button onclick="calculateMowingSpeed()">Calculate Mowing Rate</button>
+        <p>Mowing Rate: <span id="mowingSpeedResult">0 sqft/min</span></p>
     </div>
 </body>
 </html>
