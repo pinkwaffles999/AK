@@ -49,35 +49,35 @@
             let edgingRate = parseFloat(document.getElementById('edgingRate').value) || 0.15;
             let weedFt = parseFloat(document.getElementById('weedFt').value) || 0;
             let weedRate = parseFloat(document.getElementById('weedRate').value) || 0.10;
+            let speedMph = parseFloat(document.getElementById('mowingSpeed').value) || 7;
+            let deckWidthInches = parseFloat(document.getElementById('deckWidth').value) || 52;
             
             let mowingPrice = (mowingSqFt / 100) * mowingRate;
             let edgingPrice = edgingFt * edgingRate;
             let weedPrice = weedFt * weedRate;
             let totalPrice = mowingPrice + edgingPrice + weedPrice;
             
+            let speedFpm = (speedMph * 5280) / 60;
+            let deckWidthFeet = deckWidthInches / 12;
+            let mowingRateSqftPerMin = speedFpm * deckWidthFeet;
+            let mowingTimeMinutes = mowingSqFt / mowingRateSqftPerMin;
+            
             document.getElementById('mowingPrice').textContent = `$${mowingPrice.toFixed(2)}`;
             document.getElementById('edgingPrice').textContent = `$${edgingPrice.toFixed(2)}`;
             document.getElementById('weedPrice').textContent = `$${weedPrice.toFixed(2)}`;
             document.getElementById('totalPrice').textContent = `$${totalPrice.toFixed(2)}`;
-        }
-        
-        function calculateMowingSpeed() {
-            let speedMph = parseFloat(document.getElementById('mowingSpeed').value) || 7;
-            let deckWidthInches = parseFloat(document.getElementById('deckWidth').value) || 52;
-            
-            let speedFpm = (speedMph * 5280) / 60;
-            let deckWidthFeet = deckWidthInches / 12;
-            let mowingRateSqftPerMin = speedFpm * deckWidthFeet;
-            
             document.getElementById('mowingSpeedResult').textContent = `${Math.round(mowingRateSqftPerMin)} sqft/min`;
+            document.getElementById('mowingTimeResult').textContent = `${mowingTimeMinutes.toFixed(2)} minutes`;
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h2>AK Lawn Service Pricing Calculator</h2>
+        <h2>AK Lawn Service Calculator</h2>
         <label>Mowing (sq ft): <input type="number" id="mowingSqFt" value="0"></label>
         <label>Price per 100 sq ft: <input type="number" id="mowingRate" value="0.12" step="0.01"></label>
+        <label>Speed (mph): <input type="number" id="mowingSpeed" value="7" step="0.1"></label>
+        <label>Deck Width (inches): <input type="number" id="deckWidth" value="52" step="1"></label>
         <label>Edging (linear ft): <input type="number" id="edgingFt" value="0"></label>
         <label>Price per foot: <input type="number" id="edgingRate" value="0.15" step="0.01"></label>
         <label>Weed-Whipping (linear ft): <input type="number" id="weedFt" value="0"></label>
@@ -90,11 +90,9 @@
         <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
         <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
         
-        <h2>Mowing Speed Calculator</h2>
-        <label>Speed (mph): <input type="number" id="mowingSpeed" value="7" step="0.1"></label>
-        <label>Deck Width (inches): <input type="number" id="deckWidth" value="52" step="1"></label>
-        <button onclick="calculateMowingSpeed()">Calculate Mowing Rate</button>
+        <h3>Mowing Speed & Time</h3>
         <p>Mowing Rate: <span id="mowingSpeedResult">0 sqft/min</span></p>
+        <p>Estimated Mowing Time: <span id="mowingTimeResult">0 minutes</span></p>
     </div>
 </body>
 </html>
