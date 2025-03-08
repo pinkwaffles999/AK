@@ -18,11 +18,6 @@
             padding: 20px;
             border-radius: 10px;
         }
-        label {
-            display: block;
-            text-align: left;
-            width: 100%;
-        }
         .input-row {
             display: flex;
             justify-content: space-between;
@@ -39,17 +34,19 @@
             border-radius: 5px;
         }
         .price-dropdown {
+            width: 24%;
             padding: 8px;
             background-color: #333;
             color: white;
             border: 1px solid #555;
             border-radius: 5px;
-            min-width: 60px; /* Allow auto-sizing */
+            min-width: 60px;
             text-align: center;
         }
         .dropdown-container {
             display: flex;
             justify-content: space-between;
+            margin-top: 10px;
         }
         .dropdown-container select {
             width: 48%;
@@ -78,74 +75,50 @@
         }
     </style>
     <script>
-        function autoResizeDropdowns() {
-            document.querySelectorAll(".price-dropdown").forEach(dropdown => {
-                dropdown.style.width = "auto";
-            });
+        function calculatePrice() {
+            let mowingSqFt = parseFloat(document.getElementById('mowingSqFt').value) || 0;
+            let mowingRate = parseFloat(document.getElementById('mowingRate').value) || 0.12;
+            let edgingFt = parseFloat(document.getElementById('edgingFt').value) || 0;
+            let edgingRate = parseFloat(document.getElementById('edgingRate').value) || 0.15;
+            let weedFt = parseFloat(document.getElementById('weedFt').value) || 0;
+            let weedRate = parseFloat(document.getElementById('weedRate').value) || 0.10;
+            let speedMph = parseFloat(document.getElementById('mowingSpeed').value) || 7;
+            let deckWidthInches = parseFloat(document.getElementById('deckWidth').value) || 52;
+            
+            let mowingPrice = (mowingSqFt / 100) * mowingRate;
+            let edgingPrice = edgingFt * edgingRate;
+            let weedPrice = weedFt * weedRate;
+            let totalPrice = mowingPrice + edgingPrice + weedPrice;
+            
+            let speedFpm = (speedMph * 5280) / 60;
+            let deckWidthFeet = deckWidthInches / 12;
+            let mowingRateSqftPerMin = speedFpm * deckWidthFeet;
+            let mowingTimeMinutes = mowingSqFt / mowingRateSqftPerMin;
+            
+            document.getElementById('mowingPrice').textContent = `$${mowingPrice.toFixed(2)}`;
+            document.getElementById('edgingPrice').textContent = `$${edgingPrice.toFixed(2)}`;
+            document.getElementById('weedPrice').textContent = `$${weedPrice.toFixed(2)}`;
+            document.getElementById('totalPrice').textContent = `$${totalPrice.toFixed(2)}`;
+            document.getElementById('mowingSpeedResult').textContent = `${Math.round(mowingRateSqftPerMin)} sqft/min`;
+            document.getElementById('mowingTimeResult').textContent = `${mowingTimeMinutes.toFixed(2)} minutes`;
         }
-        window.onload = autoResizeDropdowns;
     </script>
 </head>
 <body>
     <div class="container">
         <h2>AK Lawn Service Calculator</h2>
         
-        <div class="input-row">
-            <label>Mowing (100 sq ft):</label>
-            <input type="text" id="mowingSqFt" value="0">
-            <select id="mowingRate" class="price-dropdown">
-                <option value="0.10">$0.10</option>
-                <option value="0.12" selected>$0.12</option>
-                <option value="0.15">$0.15</option>
-                <option value="0.20">$0.20</option>
-            </select>
-        </div>
-        
-        <div class="input-row">
-            <label>Edging (linear ft):</label>
-            <input type="text" id="edgingFt" value="0">
-            <select id="edgingRate" class="price-dropdown">
-                <option value="0.10">$0.10</option>
-                <option value="0.15" selected>$0.15</option>
-                <option value="0.20">$0.20</option>
-                <option value="0.25">$0.25</option>
-            </select>
-        </div>
-        
-        <div class="input-row">
-            <label>Weed-Whipping (linear ft):</label>
-            <input type="text" id="weedFt" value="0">
-            <select id="weedRate" class="price-dropdown">
-                <option value="0.08">$0.08</option>
-                <option value="0.10" selected>$0.10</option>
-                <option value="0.12">$0.12</option>
-                <option value="0.15">$0.15</option>
-            </select>
-        </div>
-        
-        <div class="dropdown-container">
-            <label>Speed (mph):</label>
-            <select id="mowingSpeed">
-                <option value="4">4</option>
-                <option value="6">6</option>
-                <option value="7" selected>7</option>
-                <option value="8">8</option>
-                <option value="10">10</option>
-                <option value="12">12</option>
-                <option value="14">14</option>
-                <option value="16">16</option>
-            </select>
-            <label>Deck Width (inches):</label>
-            <select id="deckWidth">
-                <option value="42">42</option>
-                <option value="48">48</option>
-                <option value="52" selected>52</option>
-                <option value="60">60</option>
-                <option value="72">72</option>
-            </select>
-        </div>
-        
         <button onclick="calculatePrice()">Calculate</button>
+        
+        <h3>Pricing Breakdown:</h3>
+        <p>Mowing Cost: <span id="mowingPrice">$0.00</span></p>
+        <p>Edging Cost: <span id="edgingPrice">$0.00</span></p>
+        <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
+        <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
+        
+        <h3>Mowing Speed & Time</h3>
+        <p>Mowing Rate: <span id="mowingSpeedResult">0 sqft/min</span></p>
+        <p>Estimated Mowing Time: <span id="mowingTimeResult">0 minutes</span></p>
     </div>
 </body>
 </html>
