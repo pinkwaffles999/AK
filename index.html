@@ -28,7 +28,7 @@
             align-items: center;
             width: 100%;
         }
-        .input-row input, .input-row select {
+        .input-row input {
             width: 75%;
             margin: 5px 0;
             padding: 8px;
@@ -92,41 +92,25 @@
     <div class="container">
         <h2>AK Lawn Service Calculator</h2>
         
-        <div class="input-row">
-            <label>Mowing (sq ft):</label>
-            <input type="number" id="mowingSqFt" value="0">
-            <select id="mowingRate" class="price-dropdown">
-                <option value="0.10">$0.10</option>
-                <option value="0.12" selected>$0.12</option>
-                <option value="0.15">$0.15</option>
-                <option value="0.20">$0.20</option>
-            </select>
-        </div>
+        <label>Mowing (sq ft):</label>
+        <input type="text" id="mowingSqFt" value="0">
+        <label>Price per 100 sq ft:</label>
+        <input type="text" id="mowingRate" value="0.12">
         
-        <div class="input-row">
-            <label>Speed (mph):</label>
-            <select id="mowingSpeed">
-                <option value="4">4</option>
-                <option value="6">6</option>
-                <option value="7" selected>7</option>
-                <option value="8">8</option>
-                <option value="10">10</option>
-                <option value="12">12</option>
-                <option value="14">14</option>
-                <option value="16">16</option>
-            </select>
-        </div>
+        <label>Speed (mph):</label>
+        <input type="text" id="mowingSpeed" value="7">
+        <label>Deck Width (inches):</label>
+        <input type="text" id="deckWidth" value="52">
         
-        <div class="input-row">
-            <label>Deck Width (inches):</label>
-            <select id="deckWidth">
-                <option value="42">42</option>
-                <option value="48">48</option>
-                <option value="52" selected>52</option>
-                <option value="60">60</option>
-                <option value="72">72</option>
-            </select>
-        </div>
+        <label>Edging (linear ft):</label>
+        <input type="text" id="edgingFt" value="0">
+        <label>Price per foot:</label>
+        <input type="text" id="edgingRate" value="0.15">
+        
+        <label>Weed-Whipping (linear ft):</label>
+        <input type="text" id="weedFt" value="0">
+        <label>Price per foot:</label>
+        <input type="text" id="weedRate" value="0.10">
         
         <button onclick="calculatePrice()">Calculate</button>
         
