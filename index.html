@@ -3,26 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK Lawn Service Pricing Calculator</title>
+    <title>Lawn Service Pricing Calculator</title>
     <style>
         body {
             background-color: black;
             color: white;
             font-family: Arial, sans-serif;
             padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
         }
         input, button {
             background-color: #333;
             color: white;
             border: 1px solid #555;
-            padding: 5px;
-            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
         }
         button {
             cursor: pointer;
+            font-size: 16px;
         }
         button:hover {
             background-color: #555;
+        }
+        h2, h3 {
+            margin-top: 20px;
         }
     </style>
     <script>
@@ -47,19 +63,21 @@
     </script>
 </head>
 <body>
-    <h2>AK Lawn Service Pricing Calculator</h2>
-    <label>Mowing (sq ft): <input type="number" id="mowingSqFt" value="0"></label>
-    <label>Price per 100 sq ft: <input type="number" id="mowingRate" value="0.12" step="0.01"></label><br>
-    <label>Edging (linear ft): <input type="number" id="edgingFt" value="0"></label>
-    <label>Price per foot: <input type="number" id="edgingRate" value="0.15" step="0.01"></label><br>
-    <label>Weed-Whipping (linear ft): <input type="number" id="weedFt" value="0"></label>
-    <label>Price per foot: <input type="number" id="weedRate" value="0.10" step="0.01"></label><br>
-    <button onclick="calculatePrice()">Calculate</button>
-    
-    <h3>Pricing Breakdown:</h3>
-    <p>Mowing Cost: <span id="mowingPrice">$0.00</span></p>
-    <p>Edging Cost: <span id="edgingPrice">$0.00</span></p>
-    <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
-    <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
+    <div class="container">
+        <h2>Lawn Service Pricing Calculator</h2>
+        <label>Mowing (sq ft): <input type="number" id="mowingSqFt" value="0"></label>
+        <label>Price per 100 sq ft: <input type="number" id="mowingRate" value="0.12" step="0.01"></label>
+        <label>Edging (linear ft): <input type="number" id="edgingFt" value="0"></label>
+        <label>Price per foot: <input type="number" id="edgingRate" value="0.15" step="0.01"></label>
+        <label>Weed-Whipping (linear ft): <input type="number" id="weedFt" value="0"></label>
+        <label>Price per foot: <input type="number" id="weedRate" value="0.10" step="0.01"></label>
+        <button onclick="calculatePrice()">Calculate</button>
+        
+        <h3>Pricing Breakdown:</h3>
+        <p>Mowing Cost: <span id="mowingPrice">$0.00</span></p>
+        <p>Edging Cost: <span id="edgingPrice">$0.00</span></p>
+        <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
+        <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
+    </div>
 </body>
 </html>
