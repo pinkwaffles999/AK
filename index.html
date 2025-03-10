@@ -1,221 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK Lawn Service Calculator</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        /* Main labels (section titles like "Mowing", "Edging", etc.) */
-        .main-label {
-            display: block;
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
-            font-size: 20px; /* Bigger size for main labels */
-            color: #ffffff; /* Gold color for section titles */
-        }
-
-        /* Sub labels (for input fields like "Area (sqft)", "Rate ($/100 sqft)") */
-        .sub-label {
-            display: block;
-            text-align: center;
-            font-size: 14px; /* Smaller size for input field labels */
-            color: #00a400; /* Green color for input field labels */
-            margin-bottom: 5px;
-        }
-
-        .input-group {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        .input-row {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .input-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 48%;
-        }
-        .input-item input {
-            width: 100%;
-            padding: 8px;
-            background-color: #333;
-            color: white;
-            border: 1px solid #555;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .dropdown-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .dropdown-container .dropdown-item {
-            width: 48%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .dropdown-container select {
-            width: 100%;
-            padding: 8px;
-            background-color: #333;
-            color: white;
-            border: 1px solid #555;
-            border-radius: 5px;
-        }
-        button {
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 10px;
-            background-color: #333;
-            color: white;
-            border: 1px solid #555;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #555;
-        }
-        h2, h3 {
-            margin-top: 20px;
-        }
-    </style>
-    <script>
-        function calculatePrice() {
-            let mowingSqFt = parseFloat(document.getElementById('mowingSqFt').value) || 0;
-            let mowingRate = parseFloat(document.getElementById('mowingRate').value) || 0.14;
-            let edgingFt = parseFloat(document.getElementById('edgingFt').value) || 0;
-            let edgingRate = parseFloat(document.getElementById('edgingRate').value) || 0.25;
-            let weedFt = parseFloat(document.getElementById('weedFt').value) || 0;
-            let weedRate = parseFloat(document.getElementById('weedRate').value) || 0.05;
-            let speedMph = parseFloat(document.getElementById('mowingSpeed').value) || 7;
-            let deckWidthInches = parseFloat(document.getElementById('deckWidth').value) || 52;
-            
-            // Calculate individual costs
-            let mowingPrice = (mowingSqFt / 100) * mowingRate;
-            let edgingPrice = edgingFt * edgingRate;
-            let weedPrice = weedFt * weedRate;
-            let totalPrice = mowingPrice + edgingPrice + weedPrice;
-            
-            // Calculate mowing speed and estimated time
-            let speedFpm = (speedMph * 5280) / 60; // Convert mph to feet per minute
-            let deckWidthFeet = deckWidthInches / 12; // Convert inches to feet
-            let mowingRateSqftPerMin = speedFpm * deckWidthFeet;
-            let mowingTimeMinutes = mowingSqFt / mowingRateSqftPerMin;
-            
-            // Display results
-            document.getElementById('mowingPrice').textContent = `$${mowingPrice.toFixed(2)}`;
-            document.getElementById('edgingPrice').textContent = `$${edgingPrice.toFixed(2)}`;
-            document.getElementById('weedPrice').textContent = `$${weedPrice.toFixed(2)}`;
-            document.getElementById('totalPrice').textContent = `$${totalPrice.toFixed(2)}`;
-            document.getElementById('mowingSpeedResult').textContent = `${Math.round(mowingRateSqftPerMin)} sqft/min`;
-            document.getElementById('mowingTimeResult').textContent = `${mowingTimeMinutes.toFixed(2)} minutes`;
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AK Lawn Service Calculator</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .main-label {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #ffffff;
+    }
+    .sub-label {
+      display: block;
+      text-align: center;
+      font-size: 14px;
+      color: #00a400;
+      margin-bottom: 5px;
+    }
+    .input-group {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .input-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .input-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 48%;
+    }
+    .input-item input, .input-item select {
+      width: 100%;
+      padding: 8px;
+      background-color: #333;
+      color: white;
+      border: 1px solid #555;
+      border-radius: 5px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .dropdown-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .dropdown-container .dropdown-item {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .dropdown-container select {
+      width: 100%;
+      padding: 8px;
+      background-color: #333;
+      color: white;
+      border: 1px solid #555;
+      border-radius: 5px;
+    }
+    button {
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+      background-color: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #555;
+    }
+    h2, h3 {
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    function calculatePrice() {
+      // Mowing: area conversion from square yards to square feet (factor of 9)
+      let mowingSqFt = parseFloat(document.getElementById('mowingSqFt').value) || 0;
+      let areaUnit = document.getElementById('areaUnit').value;
+      if (areaUnit === "sqyd") {
+        mowingSqFt *= 9; // Convert square yards to square feet
+      }
+      let mowingRate = parseFloat(document.getElementById('mowingRate').value) || 0.14;
+      
+      // Edging: linear conversion from yards to feet (factor of 3)
+      let edgingLength = parseFloat(document.getElementById('edgingFt').value) || 0;
+      let edgingUnit = document.getElementById('edgingUnit').value;
+      if (edgingUnit === "yd") {
+        edgingLength *= 3; // Convert yards to feet
+      }
+      let edgingRate = parseFloat(document.getElementById('edgingRate').value) || 0.25;
+      
+      // Weed-whipping: linear conversion from yards to feet (factor of 3)
+      let weedLength = parseFloat(document.getElementById('weedFt').value) || 0;
+      let weedUnit = document.getElementById('weedUnit').value;
+      if (weedUnit === "yd") {
+        weedLength *= 3; // Convert yards to feet
+      }
+      let weedRate = parseFloat(document.getElementById('weedRate').value) || 0.05;
+      
+      // Calculate individual costs
+      let mowingPrice = (mowingSqFt / 100) * mowingRate;
+      let edgingPrice = edgingLength * edgingRate;
+      let weedPrice = weedLength * weedRate;
+      let totalPrice = mowingPrice + edgingPrice + weedPrice;
+      
+      // Calculate mowing speed and estimated time
+      let speedMph = parseFloat(document.getElementById('mowingSpeed').value) || 7;
+      let deckWidthInches = parseFloat(document.getElementById('deckWidth').value) || 52;
+      let speedFpm = (speedMph * 5280) / 60;
+      let deckWidthFeet = deckWidthInches / 12;
+      let mowingRateSqftPerMin = speedFpm * deckWidthFeet;
+      let mowingTimeMinutes = mowingSqFt / mowingRateSqftPerMin;
+      
+      // Display results
+      document.getElementById('mowingPrice').textContent = `$${mowingPrice.toFixed(2)}`;
+      document.getElementById('edgingPrice').textContent = `$${edgingPrice.toFixed(2)}`;
+      document.getElementById('weedPrice').textContent = `$${weedPrice.toFixed(2)}`;
+      document.getElementById('totalPrice').textContent = `$${totalPrice.toFixed(2)}`;
+      document.getElementById('mowingSpeedResult').textContent = `${Math.round(mowingRateSqftPerMin)} sqft/min`;
+      document.getElementById('mowingTimeResult').textContent = `${mowingTimeMinutes.toFixed(2)} minutes`;
+      document.getElementById('propertyArea').textContent = `${mowingSqFt.toFixed(0)} sqft`;
+    }
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h2>AK Lawn Service Calculator</h2>
-
-        <div class="input-group">
-            <label class="main-label">Mowing</label>
-            <div class="input-row">
-                <div class="input-item">
-                    <label for="mowingSqFt" class="sub-label">Area (sqft)</label>
-                    <input type="number" id="mowingSqFt" value="0">
-                </div>
-                <div class="input-item">
-                    <label for="mowingRate" class="sub-label">Rate ($/100 sqft)</label>
-                    <input type="number" id="mowingRate" value="0.14" step="0.01">
-                </div>
-            </div>
+  <div class="container">
+    
+    <div class="input-group">
+      <label class="main-label">Mowing</label>
+      <div class="input-row">
+        <div class="input-item">
+          <label for="mowingSqFt" class="sub-label">Area</label>
+          <input type="number" id="mowingSqFt" value="0">
+          <select id="areaUnit">
+            <option value="sqft" selected>Square Feet</option>
+            <option value="sqyd">Square Yards</option>
+          </select>
         </div>
-
-        <div class="input-group">
-            <label class="main-label">Edging</label>
-            <div class="input-row">
-                <div class="input-item">
-                    <label for="edgingFt" class="sub-label">Length (ft)</label>
-                    <input type="number" id="edgingFt" value="0">
-                </div>
-                <div class="input-item">
-                    <label for="edgingRate" class="sub-label">Rate ($/ft)</label>
-                    <input type="number" id="edgingRate" value="0.25" step="0.01">
-                </div>
-            </div>
+        <div class="input-item">
+          <label for="mowingRate" class="sub-label">Rate ($/100 sqft)</label>
+          <input type="number" id="mowingRate" value="0.14" step="0.01">
         </div>
-
-        <div class="input-group">
-            <label class="main-label">Weed-Whipping</label>
-            <div class="input-row">
-                <div class="input-item">
-                    <label for="weedFt" class="sub-label">Length (ft)</label>
-                    <input type="number" id="weedFt" value="0">
-                </div>
-                <div class="input-item">
-                    <label for="weedRate" class="sub-label">Rate ($/ft)</label>
-                    <input type="number" id="weedRate" value="0.05" step="0.01">
-                </div>
-            </div>
-        </div>
-
-        <div class="dropdown-container">
-            <div class="dropdown-item">
-                <label for="mowingSpeed" class="sub-label">Speed (mph)</label>
-                <select id="mowingSpeed">
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7" selected>7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                </select>
-            </div>
-            <div class="dropdown-item">
-                <label for="deckWidth" class="sub-label">Deck Size</label>
-                <select id="deckWidth">
-                    <option value="42">42</option>
-                    <option value="48">48</option>
-                    <option value="52" selected>52</option>
-                    <option value="60">60</option>
-                    <option value="72">72</option>
-                </select>
-            </div>
-        </div>
-
-        <button onclick="calculatePrice()">Calculate</button>
-
-        <h3>Pricing Breakdown:</h3>
-        <p>Mowing Cost: <span id="mowingPrice">$0.00</span></p>
-        <p>Edging Cost: <span id="edgingPrice">$0.00</span></p>
-        <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
-        <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
-
-        <h3>Mowing Speed & Time</h3>
-        <p>Mowing Rate: <span id="mowingSpeedResult">0 sqft/min</span></p>
-        <p>Estimated Mowing Time: <span id="mowingTimeResult">0 minutes</span></p>
+      </div>
     </div>
+
+    <div class="input-group">
+      <label class="main-label">Edging</label>
+      <div class="input-row">
+        <div class="input-item">
+          <label for="edgingFt" class="sub-label">Length</label>
+          <input type="number" id="edgingFt" value="0">
+          <select id="edgingUnit">
+            <option value="ft" selected>Feet</option>
+            <option value="yd">Yards</option>
+          </select>
+        </div>
+        <div class="input-item">
+          <label for="edgingRate" class="sub-label">Rate ($/ft)</label>
+          <input type="number" id="edgingRate" value="0.25" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="main-label">Weed-Whipping</label>
+      <div class="input-row">
+        <div class="input-item">
+          <label for="weedFt" class="sub-label">Length</label>
+          <input type="number" id="weedFt" value="0">
+          <select id="weedUnit">
+            <option value="ft" selected>Feet</option>
+            <option value="yd">Yards</option>
+          </select>
+        </div>
+        <div class="input-item">
+          <label for="weedRate" class="sub-label">Rate ($/ft)</label>
+          <input type="number" id="weedRate" value="0.05" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown-container">
+      <div class="dropdown-item">
+        <label for="mowingSpeed" class="sub-label">Speed (mph)</label>
+        <select id="mowingSpeed">
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7" selected>7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="12">13</option>
+          <option value="12">14</option>
+          <option value="12">15</option>
+          <option value="12">16</option>
+        </select>
+      </div>
+      <div class="dropdown-item">
+        <label for="deckWidth" class="sub-label">Deck Size</label>
+        <select id="deckWidth">
+          <option value="42">42</option>
+          <option value="48">48</option>
+          <option value="52" selected>52</option>
+          <option value="60">60</option>
+          <option value="72">72</option>
+        </select>
+      </div>
+    </div>
+
+    <button onclick="calculatePrice()">Calculate</button>
+
+    <h3>Pricing Breakdown:</h3>
+    <p>Mowing Cost: <span id="mowingPrice">$0.00</span></p>
+    <p>Edging Cost: <span id="edgingPrice">$0.00</span></p>
+    <p>Weed-Whipping Cost: <span id="weedPrice">$0.00</span></p>
+    <h3>Total Price: <span id="totalPrice">$0.00</span></h3>
+
+    <h3>Mowing Speed & Time</h3>
+    <p>Property Area: <span id="propertyArea">0 sqft</span></p>
+    <p>Mowing Rate: <span id="mowingSpeedResult">0 sqft per minute</span></p>
+    <p>Estimated Mowing Time: <span id="mowingTimeResult">0 minutes</span></p>
+    
+  </div>
 </body>
 </html>
